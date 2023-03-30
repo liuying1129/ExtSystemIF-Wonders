@@ -232,6 +232,7 @@ var
 begin
   (Sender as TTimer).Enabled:=false;
 
+  if length(memo1.Lines.Text)>=60000 then memo1.Lines.Clear;//memo只能接受64K个字符
   Memo1.Lines.Add(DateTimeToStr(now));
 
   ADOTemp22:=TADOQuery.Create(nil);
