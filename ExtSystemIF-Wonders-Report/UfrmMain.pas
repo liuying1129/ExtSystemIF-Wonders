@@ -244,6 +244,8 @@ begin
   ADOTemp22.Open;
   while not ADOTemp22.Eof do
   begin
+    Memo1.Lines.Add('报告发布:【'+ADOTemp22.fieldbyname('unid').AsString+'】'+ADOTemp22.fieldbyname('patientname').AsString);
+
     ifCompleted:=ADOTemp22.fieldbyname('ifCompleted').AsInteger;
     
     ADOTemp33:=TADOQuery.Create(nil);
