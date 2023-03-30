@@ -89,7 +89,7 @@ object frmMain: TfrmMain
       Align = alTop
       TabOrder = 0
       object LabeledEdit2: TLabeledEdit
-        Left = 133
+        Left = 140
         Top = 26
         Width = 60
         Height = 21
@@ -102,7 +102,7 @@ object frmMain: TfrmMain
         TabOrder = 0
       end
       object LabeledEdit3: TLabeledEdit
-        Left = 200
+        Left = 207
         Top = 26
         Width = 35
         Height = 21
@@ -115,7 +115,7 @@ object frmMain: TfrmMain
         TabOrder = 1
       end
       object LabeledEdit4: TLabeledEdit
-        Left = 250
+        Left = 257
         Top = 26
         Width = 35
         Height = 21
@@ -130,18 +130,18 @@ object frmMain: TfrmMain
       object LabeledEdit7: TLabeledEdit
         Left = 6
         Top = 26
-        Width = 72
+        Width = 120
         Height = 21
         TabStop = False
         Color = clMenu
-        EditLabel.Width = 118
+        EditLabel.Width = 112
         EditLabel.Height = 13
-        EditLabel.Caption = #26465#30721'('#21345#21495#25110#20303#38498#21495')'
+        EditLabel.Caption = #26465#30721'('#21345#21495'/'#20303#38498#21495')'
         ReadOnly = True
         TabOrder = 3
       end
       object Edit2: TEdit
-        Left = 285
+        Left = 292
         Top = 26
         Width = 35
         Height = 21
@@ -157,7 +157,7 @@ object frmMain: TfrmMain
         TabOrder = 4
       end
       object LabeledEdit5: TLabeledEdit
-        Left = 325
+        Left = 332
         Top = 26
         Width = 52
         Height = 21
@@ -170,7 +170,7 @@ object frmMain: TfrmMain
         TabOrder = 5
       end
       object LabeledEdit6: TLabeledEdit
-        Left = 387
+        Left = 394
         Top = 25
         Width = 55
         Height = 21
@@ -183,7 +183,7 @@ object frmMain: TfrmMain
         TabOrder = 6
       end
       object LabeledEdit9: TLabeledEdit
-        Left = 453
+        Left = 460
         Top = 25
         Width = 60
         Height = 21
@@ -228,7 +228,7 @@ object frmMain: TfrmMain
     end
     object DBGrid1: TDBGrid
       Left = 2
-      Top = 73
+      Top = 162
       Width = 950
       Height = 229
       TabStop = False
@@ -243,10 +243,10 @@ object frmMain: TfrmMain
     end
     object Memo1: TMemo
       Left = 2
-      Top = 302
+      Top = 73
       Width = 950
       Height = 89
-      Align = alBottom
+      Align = alTop
       Color = clMenu
       ReadOnly = True
       TabOrder = 3
