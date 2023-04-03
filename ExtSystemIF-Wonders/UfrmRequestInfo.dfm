@@ -23,8 +23,8 @@ object frmRequestInfo: TfrmRequestInfo
     Align = alTop
     TabOrder = 0
     object BitBtn1: TBitBtn
-      Left = 546
-      Top = 64
+      Left = 402
+      Top = 112
       Width = 209
       Height = 25
       Caption = #25764#38144#30830#35748#30340#39033#30446'-'#29992#20110#36864#36153
@@ -32,35 +32,37 @@ object frmRequestInfo: TfrmRequestInfo
       OnClick = BitBtn1Click
     end
     object RadioGroup1: TRadioGroup
-      Left = 64
+      Left = 8
       Top = 59
-      Width = 110
+      Width = 249
       Height = 32
-      Columns = 2
+      Columns = 4
       ItemIndex = 0
       Items.Strings = (
         #38376#35786
-        #20303#38498)
+        #20303#38498
+        #19981#29992
+        #20307#26816)
       TabOrder = 1
     end
     object LabeledEdit2: TLabeledEdit
-      Left = 194
+      Left = 282
       Top = 72
-      Width = 137
+      Width = 191
       Height = 21
-      EditLabel.Width = 60
+      EditLabel.Width = 186
       EditLabel.Height = 13
-      EditLabel.Caption = 'HIS'#30149#21382#21495
+      EditLabel.Caption = 'HIS'#30149#21382#21495'(chk_con.HIS_UNID)'
       TabOrder = 2
     end
     object LabeledEdit3: TLabeledEdit
-      Left = 346
+      Left = 514
       Top = 72
-      Width = 137
+      Width = 231
       Height = 21
-      EditLabel.Width = 99
+      EditLabel.Width = 218
       EditLabel.Height = 13
-      EditLabel.Caption = 'HIS'#39033#30446#30003#35831#21333#21495
+      EditLabel.Caption = 'HIS'#39033#30446#30003#35831#21333#21495'(chk_valu.Surem1)'
       TabOrder = 3
     end
   end
@@ -78,8 +80,17 @@ object frmRequestInfo: TfrmRequestInfo
       Height = 13
       Caption = #22238#25910#25253#21578#21069#19968#33324#35201#21462#28040#23457#26680','#20197#20813#38169#35823#25253#21578#34987#20877#27425#21457#24067
     end
+    object Label2: TLabel
+      Left = 79
+      Top = 116
+      Width = 629
+      Height = 13
+      Caption = 
+        'chk_con.unid'#24050#22312#30149#20154#20449#24687#21457#24067#25509#21475'(usp_yjjk_jcbrfb)'#12289#30149#20154#32467#26524#21457#24067#25509#21475'(usp_yjjk_yjjgfb' +
+        ')'#20256#36755#32473'HIS'
+    end
     object BitBtn4: TBitBtn
-      Left = 207
+      Left = 367
       Top = 68
       Width = 75
       Height = 25
@@ -90,11 +101,11 @@ object frmRequestInfo: TfrmRequestInfo
     object LabeledEdit1: TLabeledEdit
       Left = 79
       Top = 68
-      Width = 121
+      Width = 210
       Height = 21
-      EditLabel.Width = 99
+      EditLabel.Width = 197
       EditLabel.Height = 13
-      EditLabel.Caption = 'LIS'#26816#39564#21333#21807#19968#21495
+      EditLabel.Caption = 'LIS'#26816#39564#21333#21807#19968#21495'(chk_con.unid)'
       TabOrder = 1
     end
   end

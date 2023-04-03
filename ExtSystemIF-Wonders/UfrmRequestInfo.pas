@@ -17,6 +17,7 @@ type
     RadioGroup1: TRadioGroup;
     LabeledEdit2: TLabeledEdit;
     LabeledEdit3: TLabeledEdit;
+    Label2: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BitBtn4Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
