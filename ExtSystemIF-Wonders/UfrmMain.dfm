@@ -39,7 +39,7 @@ object frmMain: TfrmMain
       OnClick = SpeedButton1Click
     end
     object LabeledEdit1: TLabeledEdit
-      Left = 257
+      Left = 369
       Top = 12
       Width = 170
       Height = 21
@@ -63,13 +63,15 @@ object frmMain: TfrmMain
     object RadioGroup1: TRadioGroup
       Left = 6
       Top = 3
-      Width = 110
+      Width = 211
       Height = 32
-      Columns = 2
+      Columns = 4
       ItemIndex = 0
       Items.Strings = (
         #38376#35786
-        #20303#38498)
+        #20303#38498
+        #19981#29992
+        #20307#26816)
       TabOrder = 2
     end
   end
@@ -89,7 +91,7 @@ object frmMain: TfrmMain
       Align = alTop
       TabOrder = 0
       object LabeledEdit2: TLabeledEdit
-        Left = 140
+        Left = 209
         Top = 26
         Width = 60
         Height = 21
@@ -102,7 +104,7 @@ object frmMain: TfrmMain
         TabOrder = 0
       end
       object LabeledEdit3: TLabeledEdit
-        Left = 207
+        Left = 276
         Top = 26
         Width = 35
         Height = 21
@@ -115,7 +117,7 @@ object frmMain: TfrmMain
         TabOrder = 1
       end
       object LabeledEdit4: TLabeledEdit
-        Left = 257
+        Left = 326
         Top = 26
         Width = 35
         Height = 21
@@ -130,18 +132,18 @@ object frmMain: TfrmMain
       object LabeledEdit7: TLabeledEdit
         Left = 6
         Top = 26
-        Width = 120
+        Width = 160
         Height = 21
         TabStop = False
         Color = clMenu
-        EditLabel.Width = 112
+        EditLabel.Width = 158
         EditLabel.Height = 13
-        EditLabel.Caption = #26465#30721'('#21345#21495'/'#20303#38498#21495')'
+        EditLabel.Caption = #26465#30721'('#21345#21495'/'#20303#38498#21495'/'#20307#26816#21495')'
         ReadOnly = True
         TabOrder = 3
       end
       object Edit2: TEdit
-        Left = 292
+        Left = 361
         Top = 26
         Width = 35
         Height = 21
@@ -157,7 +159,7 @@ object frmMain: TfrmMain
         TabOrder = 4
       end
       object LabeledEdit5: TLabeledEdit
-        Left = 332
+        Left = 401
         Top = 26
         Width = 52
         Height = 21
@@ -170,7 +172,7 @@ object frmMain: TfrmMain
         TabOrder = 5
       end
       object LabeledEdit6: TLabeledEdit
-        Left = 394
+        Left = 463
         Top = 25
         Width = 55
         Height = 21
@@ -183,7 +185,7 @@ object frmMain: TfrmMain
         TabOrder = 6
       end
       object LabeledEdit9: TLabeledEdit
-        Left = 460
+        Left = 529
         Top = 25
         Width = 60
         Height = 21
