@@ -54,6 +54,9 @@ function GetMaxCheckID(const AWorkGroup,APreDate,APreCheckID:PChar):PChar;stdcal
 const
   CryptStr='lc';
 
+var  
+  hnd:integer;
+
 procedure OperateLinkFile(ExePathAndName:string; LinkFileName: widestring;
   LinkFilePos:integer;AddorDelete: boolean);
 VAR
@@ -815,5 +818,17 @@ begin
   if (MessageDlg('退出后将不再回传检验结果,确定退出吗？', mtWarning, [mbYes, mbNo], 0) <> mrYes) then exit;
   application.Terminate;
 end;
+
+initialization
+    hnd := CreateMutex(nil, True, Pchar(ExtractFileName(Application.ExeName)));
+    if GetLastError = ERROR_ALREADY_EXISTS then
+    begin
+        MessageBox(application.Handle,pchar('该程序已在运行中！'),
+                    '系统提示',MB_OK+MB_ICONinformation);   
+        Halt;
+    end;
+
+finalization
+    if hnd <> 0 then CloseHandle(hnd);
 
 end.
