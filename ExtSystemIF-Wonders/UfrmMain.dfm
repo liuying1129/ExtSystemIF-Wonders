@@ -79,7 +79,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 41
     Width = 954
-    Height = 426
+    Height = 407
     Align = alClient
     Caption = #26465#30721#20449#24687
     TabOrder = 1
@@ -200,7 +200,7 @@ object frmMain: TfrmMain
     end
     object Panel4: TPanel
       Left = 2
-      Top = 391
+      Top = 372
       Width = 950
       Height = 33
       Align = alBottom
@@ -232,10 +232,11 @@ object frmMain: TfrmMain
       Left = 2
       Top = 162
       Width = 950
-      Height = 229
+      Height = 210
       TabStop = False
       Align = alClient
       DataSource = DataSource1
+      PopupMenu = PopupMenu1
       TabOrder = 1
       TitleFont.Charset = ANSI_CHARSET
       TitleFont.Color = clWindowText
@@ -253,6 +254,33 @@ object frmMain: TfrmMain
       ReadOnly = True
       TabOrder = 3
     end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 448
+    Width = 954
+    Height = 19
+    Panels = <
+      item
+        Width = 50
+      end
+      item
+        Text = #25805#20316#20154#21592#24037#21495':'
+        Width = 82
+      end
+      item
+        Width = 100
+      end
+      item
+        Text = #25805#20316#20154#21592#22995#21517':'
+        Width = 82
+      end
+      item
+        Width = 70
+      end
+      item
+        Width = 50
+      end>
   end
   object UniConnection1: TUniConnection
     Left = 630
@@ -360,5 +388,14 @@ object frmMain: TfrmMain
     Active = True
     Left = 545
     Top = 8
+  end
+  object PopupMenu1: TPopupMenu
+    AutoHotkeys = maManual
+    Left = 144
+    Top = 211
+    object N1: TMenuItem
+      Caption = #29616#22312#19981#26816
+      OnClick = N1Click
+    end
   end
 end

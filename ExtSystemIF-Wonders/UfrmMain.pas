@@ -6,7 +6,14 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, DB, DBAccess, Uni, MemDS, Grids, DBGrids,
   Buttons,OracleUniProvider, ADODB,IniFiles,StrUtils, VirtualTable,
-  ActnList, DosMove;
+  ActnList, DosMove, Menus, ComCtrls;
+
+//==为了通过发送消息更新主窗体状态栏而增加==//
+const
+  WM_UPDATETEXTSTATUS=WM_USER+1;
+TYPE
+  TWMUpdateTextStatus=TWMSetText;
+//=========================================//
 
 type
   TfrmMain = class(TForm)
@@ -37,6 +44,9 @@ type
     LabeledEdit6: TLabeledEdit;
     LabeledEdit9: TLabeledEdit;
     Memo1: TMemo;
+    PopupMenu1: TPopupMenu;
+    N1: TMenuItem;
+    StatusBar1: TStatusBar;
     procedure LabeledEdit1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -46,11 +56,17 @@ type
     procedure CheckBox1Click(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure N1Click(Sender: TObject);
   private
     { Private declarations }
     function MakeAdoDBConn:boolean;
     function MakeUniDBConn:boolean;
-    procedure SingleRequestForm2Lis(const WorkGroup,His_Unid,patientname,sex,age,age_unit,deptname,check_doctor,RequestDate:String;const ABarcode,Surem1,checkid,SampleType,pkcombin_id,His_MzOrZy:String);
+    procedure SingleRequestForm2Lis(const WorkGroup,His_Unid,patientname,sex,age,age_unit,deptname,check_doctor,RequestDate:String;const ABarcode,Surem1,checkid,SampleType,pkcombin_id,His_MzOrZy,PullPress:String);
+    //==为了通过发送消息更新主窗体状态栏而增加==//
+    procedure WMUpdateTextStatus(var message:twmupdatetextstatus);  {WM_UPDATETEXTSTATUS消息处理函数}
+                                              message WM_UPDATETEXTSTATUS;
+    procedure updatestatusBar(const text:string);//Text为该格式#$2+'0:abc'+#$2+'1:def'表示状态栏第0格显示abc,第1格显示def,依此类推
+    //==========================================//
   public
     { Public declarations }
   end;
@@ -61,9 +77,12 @@ const
 var
   frmMain: TfrmMain;
 
+  operator_name:string;
+  operator_id:string;
+  
 implementation
 
-uses superobject, UfrmRequestInfo;
+uses superobject, UfrmRequestInfo, UfrmLogin;
 
 {$R *.dfm}
 
@@ -312,7 +331,8 @@ begin
         VTTemp.fieldbyname('联机号').AsString,
         VTTemp.fieldbyname('样本类型').AsString,
         VTTemp.fieldbyname('LIS项目代码').AsString,
-        LabeledEdit9.Text
+        LabeledEdit9.Text,
+        operator_name
       );
 
       //保存当前联机号
@@ -516,7 +536,8 @@ begin
       VTTemp.fieldbyname('联机号').AsString,
       VTTemp.fieldbyname('样本类型').AsString,
       VTTemp.fieldbyname('LIS项目代码').AsString,
-      LabeledEdit9.Text
+      LabeledEdit9.Text,
+      operator_name
     );
 
     //保存当前联机号
@@ -542,7 +563,7 @@ end;
 
 procedure TfrmMain.SingleRequestForm2Lis(const WorkGroup, His_Unid, patientname, sex,
   age, age_unit, deptname, check_doctor, RequestDate, ABarcode, Surem1,
-  checkid, SampleType, pkcombin_id, His_MzOrZy: String);
+  checkid, SampleType, pkcombin_id, His_MzOrZy, PullPress: String);
 var
   ObjectYZMZ:ISuperObject;
   ArrayYZMX:ISuperObject;
@@ -578,6 +599,7 @@ begin
   ObjectJYYZ.S['申请日期']:=RequestDate;
   ObjectJYYZ.S['外部系统唯一编号']:=His_Unid;
   ObjectJYYZ.S['患者类别']:=His_MzOrZy;
+  ObjectJYYZ.S['样本接收人']:=PullPress;
   ObjectJYYZ.O['医嘱明细']:=ArrayYZMX;
   ArrayYZMX:=nil;
 
@@ -753,6 +775,8 @@ procedure TfrmMain.FormShow(Sender: TObject);
 var
   configini:tinifile;
 begin
+  frmLogin.ShowModal;
+
   CONFIGINI:=TINIFILE.Create(ChangeFileExt(Application.ExeName,'.ini'));
 
   CheckBox1.Checked:=configini.ReadBool('Interface','ifDirect2LIS',false);{记录是否扫描后直接导入LIS}
@@ -761,6 +785,42 @@ begin
   configini.Free;
   
   BitBtn1.Enabled:=not CheckBox1.Checked;
+end;
+
+procedure TfrmMain.N1Click(Sender: TObject);
+begin
+  //背景:住院病人可能开了血、尿的检验项目，但现在没有流尿，等到第二天才做尿的检验
+  if VirtualTable1.RecordCount<=0 then exit;
+
+  VirtualTable1.Delete;
+end;
+
+procedure TfrmMain.updatestatusBar(const text: string);
+//Text为该格式#$2+'0:abc'+#$2+'1:def'表示状态栏第0格显示abc,第1格显示def,依此类推
+var
+  i,J2Pos,J2Len,TextLen,j:integer;
+  tmpText:string;
+begin
+  TextLen:=length(text);
+  for i :=0 to StatusBar1.Panels.Count-1 do
+  begin
+    J2Pos:=pos(#$2+inttostr(i)+':',text);
+    J2Len:=length(#$2+inttostr(i)+':');
+    if J2Pos<>0 then
+    begin
+      tmpText:=text;
+      tmpText:=copy(tmpText,J2Pos+J2Len,TextLen-J2Pos-J2Len+1);
+      j:=pos(#$2,tmpText);
+      if j<>0 then tmpText:=leftstr(tmpText,j-1);
+      StatusBar1.Panels[i].Text:=tmpText;
+    end;
+  end;
+end;
+
+procedure TfrmMain.WMUpdateTextStatus(var message: twmupdatetextstatus);
+begin
+  UpdateStatusBar(pchar(message.Text));
+  message.Result:=-1;
 end;
 
 end.
