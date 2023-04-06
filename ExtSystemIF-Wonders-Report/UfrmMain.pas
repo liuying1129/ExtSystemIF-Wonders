@@ -178,7 +178,7 @@ end;
 
 function TfrmMain.MakeUniDBConn: boolean;
 var
-  ss: string;
+  newconnstr,ss: string;
   Ini: tinifile;
   userid, password, datasource, provider: string;
 
@@ -202,15 +202,18 @@ begin
   for i :=1  to length(pDeStr) do password[i]:=pDeStr[i-1];
   //==========
 
+  //Provider Name为Oracle时,Server属性格式:Host IP:Port:SID,如10.195.252.13:1521:kthis1
+  //Oracle的默认Port为1521
+  //查询Oracle SID:select instance_name from V$instance;
+  newconnstr :='';
+  newconnstr := newconnstr + 'Provider Name=' + provider + ';';
+  newconnstr := newconnstr + 'Login Prompt=False;Direct=True;';
+  newconnstr := newconnstr + 'Data Source=' + datasource + ';';
+  newconnstr := newconnstr + 'User ID=' + userid + ';';
+  newconnstr := newconnstr + 'Password=' + password + ';';
   try
     UniConnection1.Connected := false;
-    UniConnection1.ProviderName:=provider;
-    //查询SID:select instance_name from V$instance;
-    UniConnection1.Server:=datasource;//'10.195.252.13:1521:kthis1';
-    UniConnection1.Username:=userid;
-    UniConnection1.Password:=password;
-    UniConnection1.SpecificOptions.Values['Direct']:='True';
-    UniConnection1.LoginPrompt:=false;
+    UniConnection1.ConnectString:=newconnstr;
     UniConnection1.Connect;
     result:=true;
   except
@@ -236,7 +239,7 @@ begin
   (Sender as TTimer).Enabled:=false;
 
   if length(memo1.Lines.Text)>=60000 then memo1.Lines.Clear;//memo只能接受64K个字符
-  Memo1.Lines.Add(DateTimeToStr(now));
+  Memo1.Lines.Add(DateTimeToStr(now));//用于观测服务程序是否死掉
 
   ADOTemp22:=TADOQuery.Create(nil);
   ADOTemp22.Connection:=ADOConnection1;
@@ -247,8 +250,6 @@ begin
   ADOTemp22.Open;
   while not ADOTemp22.Eof do
   begin
-    Memo1.Lines.Add('报告发布:【'+ADOTemp22.fieldbyname('unid').AsString+'】'+ADOTemp22.fieldbyname('patientname').AsString);
-
     ifCompleted:=ADOTemp22.fieldbyname('ifCompleted').AsInteger;
     
     ADOTemp33:=TADOQuery.Create(nil);
@@ -512,12 +513,15 @@ begin
       try
         UniStoredProc1.Open;
         if UniStoredProc1.FieldByName('confirm').AsString<>'T' then
-          Memo1.Lines.Add(ADOTemp22.fieldbyname('unid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人信息发布失败:'+UniStoredProc1.FieldByName('errdesc').AsString)
-        else ExecSQLCmd(ADOConnection1.ConnectionString,'update '+ifThen(ifCompleted=1,'chk_con_bak','chk_con')+' set Weight=''已发布'' where Unid='+ADOTemp22.fieldbyname('unid').AsString);
+        begin
+          Memo1.Lines.Add(ADOTemp22.fieldbyname('unid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人信息发布失败:'+UniStoredProc1.FieldByName('errdesc').AsString);
+          WriteLog(PChar(ADOTemp22.fieldbyname('unid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人信息发布失败:'+UniStoredProc1.FieldByName('errdesc').AsString));
+        end else ExecSQLCmd(ADOConnection1.ConnectionString,'update '+ifThen(ifCompleted=1,'chk_con_bak','chk_con')+' set Weight=''已发布'' where Unid='+ADOTemp22.fieldbyname('unid').AsString);
       except
         on E:Exception do
         begin
           Memo1.Lines.Add(ADOTemp22.fieldbyname('unid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人信息发布(usp_yjjk_jcbrfb)执行出错:'+E.Message);
+          WriteLog(PChar(ADOTemp22.fieldbyname('unid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人信息发布(usp_yjjk_jcbrfb)执行出错:'+E.Message));
         end;
       end;
       UniStoredProc1.Free;
@@ -696,11 +700,15 @@ begin
       try
         UniStoredProc2.Open;
         if UniStoredProc2.FieldByName('confirm').AsString<>'T' then
+        begin
           Memo1.Lines.Add(ADOTemp22.fieldbyname('unid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人结果发布失败:'+UniStoredProc2.FieldByName('errdesc').AsString);
+          WriteLog(PChar(ADOTemp22.fieldbyname('unid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人结果发布失败:'+UniStoredProc2.FieldByName('errdesc').AsString));
+        end;
       except
         on E:Exception do
         begin
           Memo1.Lines.Add(ADOTemp22.fieldbyname('unid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人结果发布(usp_yjjk_yjjgfb)执行出错:'+E.Message);
+          WriteLog(PChar(ADOTemp22.fieldbyname('unid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人结果发布(usp_yjjk_yjjgfb)执行出错:'+E.Message));
         end;
       end;
       UniStoredProc2.Free;
@@ -712,66 +720,6 @@ begin
     ADOTemp22.Next;
   end;
   ADOTemp22.Free;
-
-  {//病人报告回收
-  ADOTemp44:=TADOQuery.Create(nil);
-  ADOTemp44.Connection:=ADOConnection1;
-  ADOTemp44.Close;
-  ADOTemp44.SQL.Clear;
-  ADOTemp44.SQL.Text:='select * from Chk_Con cc where cc.Weight=''已发布'' and isnull(cc.report_doctor,'''')='''' ';
-  ADOTemp44.Open;
-  while not ADOTemp44.Eof do
-  begin
-    Memo1.Lines.Add('病人报告回收,姓名:'+ADOTemp22.fieldbyname('patientname').AsString);
-
-    UniStoredProc4:=TUniStoredProc.Create(nil);
-    UniStoredProc4.Connection:=UniConnection1;
-    UniStoredProc4.Close;
-    UniStoredProc4.Params.Clear;
-    UniStoredProc4.StoredProcName:='usp_yjjk_yjjghuishou';//病人报告回收
-    UniStoredProc4.Params.Add;
-    UniStoredProc4.Params[0].Name:='orgcode';
-    UniStoredProc4.Params[0].DataType:=ftString;
-    UniStoredProc4.Params[0].ParamType:=ptInput;
-    UniStoredProc4.ParamByName('orgcode').Value:=OrgCode;
-
-    UniStoredProc4.Params.Add;
-    UniStoredProc4.Params[1].Name:='syscode';
-    UniStoredProc4.Params[1].DataType:=ftstring;
-    UniStoredProc4.Params[1].ParamType:=ptinput;
-    UniStoredProc4.ParamByName('syscode').Value:='LIS';
-
-    UniStoredProc4.Params.Add;
-    UniStoredProc4.Params[2].Name:='applyno';
-    UniStoredProc4.Params[2].DataType:=ftstring;
-    UniStoredProc4.Params[2].ParamType:=ptinput;
-    UniStoredProc4.ParamByName('applyno').Value:=ADOTemp44.fieldbyname('unid').AsInteger;
-
-    UniStoredProc4.Params.Add;
-    UniStoredProc4.Params[3].Name:='tolab';
-    UniStoredProc4.Params[3].DataType:=ftstring;
-    UniStoredProc4.Params[3].ParamType:=ptinput;
-    UniStoredProc4.ParamByName('tolab').Value:='';
-
-    UniStoredProc4.Params.Add;
-    UniStoredProc4.Params[4].Name:='result';//必需
-    UniStoredProc4.Params[4].DataType:=ftCursor;
-    UniStoredProc4.Params[4].ParamType:=ptOutput;
-    try
-      UniStoredProc4.Open;
-      if UniStoredProc4.FieldByName('confirm').AsString<>'T' then
-        MessageDlg('病人报告回收失败:'+UniStoredProc4.FieldByName('errdesc').AsString,mtError,[mbOK],0);
-    except
-      on E:Exception do
-      begin
-        MessageDlg('病人报告回收(usp_yjjk_yjjghuishou)执行出错:'+E.Message,mtError,[mbOK],0);
-      end;
-    end;
-    UniStoredProc4.Free;
-
-    ADOTemp44.Next;
-  end;
-  ADOTemp44.Free;//}
 
   (Sender as TTimer).Enabled:=true;
 end;
@@ -795,6 +743,7 @@ begin
     on E:Exception do
     begin
       Memo1.Lines.Add('函数ExecSQLCmd失败:'+E.Message+'。错误的SQL:'+ASQL);
+      WriteLog(PChar('函数ExecSQLCmd失败:'+E.Message+'。错误的SQL:'+ASQL));
       Result:=-1;
     end;
   end;

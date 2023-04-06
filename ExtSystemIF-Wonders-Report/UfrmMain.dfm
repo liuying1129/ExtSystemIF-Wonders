@@ -52,7 +52,7 @@ object frmMain: TfrmMain
   end
   object Timer1: TTimer
     Enabled = False
-    Interval = 10000
+    Interval = 60000
     OnTimer = Timer1Timer
     Left = 512
     Top = 8
