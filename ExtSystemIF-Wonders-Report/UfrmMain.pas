@@ -267,6 +267,9 @@ begin
 
     if ADOTemp33.RecordCount>0 then
     begin
+      Memo1.Lines.Add('报告发布:【'+ADOTemp22.fieldbyname('unid').AsString+'】'+ADOTemp22.fieldbyname('patientname').AsString);
+      WriteLog(PChar('报告发布:【'+ADOTemp22.fieldbyname('unid').AsString+'】'+ADOTemp22.fieldbyname('patientname').AsString));
+      
       UniStoredProc1:=TUniStoredProc.Create(nil);
       UniStoredProc1.Connection:=UniConnection1;
       UniStoredProc1.Close;
