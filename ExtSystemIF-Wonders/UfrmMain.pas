@@ -275,6 +275,14 @@ begin
       
       while not ADOTemp22.Eof do
       begin
+        //如工作组为空,ini.ReadString报错ntdll.dll,且产生操作人员找不到病人信息的问题
+        if trim(ADOTemp22.FieldByName('dept_DfValue').AsString)='' then
+        begin
+          Memo1.Lines.Add(ADOTemp22.FieldByName('Id').AsString+'【'+ADOTemp22.FieldByName('Name').AsString+'】未设置默认工作组');
+          ADOTemp22.Next;
+          continue; 
+        end;
+        
         ini:=tinifile.Create(ChangeFileExt(Application.ExeName,'.ini'));
         PreDate:=ini.ReadString(ADOTemp22.FieldByName('dept_DfValue').AsString,'检查日期','');
         PreCheckID:=ini.ReadString(ADOTemp22.FieldByName('dept_DfValue').AsString,'联机号','');
