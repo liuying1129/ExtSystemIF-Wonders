@@ -704,14 +704,14 @@ begin
         UniStoredProc2.Open;
         if UniStoredProc2.FieldByName('confirm').AsString<>'T' then
         begin
-          Memo1.Lines.Add(ADOTemp22.fieldbyname('unid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人结果发布失败:'+UniStoredProc2.FieldByName('errdesc').AsString);
-          WriteLog(PChar(ADOTemp22.fieldbyname('unid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人结果发布失败:'+UniStoredProc2.FieldByName('errdesc').AsString));
+          Memo1.Lines.Add(ADOTemp33.fieldbyname('valueid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人结果发布失败:'+UniStoredProc2.FieldByName('errdesc').AsString);
+          WriteLog(PChar(ADOTemp33.fieldbyname('valueid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人结果发布失败:'+UniStoredProc2.FieldByName('errdesc').AsString));
         end;
       except
         on E:Exception do
         begin
-          Memo1.Lines.Add(ADOTemp22.fieldbyname('unid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人结果发布(usp_yjjk_yjjgfb)执行出错:'+E.Message);
-          WriteLog(PChar(ADOTemp22.fieldbyname('unid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人结果发布(usp_yjjk_yjjgfb)执行出错:'+E.Message));
+          Memo1.Lines.Add(ADOTemp33.fieldbyname('valueid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人结果发布(usp_yjjk_yjjgfb)执行出错:'+E.Message);
+          WriteLog(PChar(ADOTemp33.fieldbyname('valueid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人结果发布(usp_yjjk_yjjgfb)执行出错:'+E.Message));
         end;
       end;
       UniStoredProc2.Free;
