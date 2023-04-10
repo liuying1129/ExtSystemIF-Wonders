@@ -262,7 +262,7 @@ begin
                       ' from '+
                       ifThen(ifCompleted=1,'chk_valu_bak','chk_valu')+
                       ' cv where cv.pkUnid='+ADOTemp22.fieldbyname('unid').AsString+
-                      ' and cv.issure=1 and ltrim(rtrim(isnull(cv.itemvalue,'''')))<>'''' ';
+                      ' and cv.issure=1 and ltrim(rtrim(isnull(cv.itemvalue,'''')))<>'''' and isnull(cv.Surem1,'''')<>'''' ';
     ADOTemp33.Open;
 
     if ADOTemp33.RecordCount>0 then
