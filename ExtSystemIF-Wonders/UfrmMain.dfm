@@ -24,12 +24,12 @@ object frmMain: TfrmMain
     Left = 0
     Top = 0
     Width = 954
-    Height = 41
+    Height = 52
     Align = alTop
     TabOrder = 0
     object SpeedButton1: TSpeedButton
       Left = 923
-      Top = 11
+      Top = 21
       Width = 23
       Height = 22
       Hint = #26597#30475#33713#22495#30003#35831#21333
@@ -38,21 +38,27 @@ object frmMain: TfrmMain
       ShowHint = True
       OnClick = SpeedButton1Click
     end
+    object Label2: TLabel
+      Left = 6
+      Top = 8
+      Width = 104
+      Height = 13
+      Caption = #26816#39564#21307#22065#36215#22987#26085#26399
+    end
     object LabeledEdit1: TLabeledEdit
-      Left = 369
-      Top = 12
-      Width = 170
+      Left = 371
+      Top = 24
+      Width = 130
       Height = 21
       EditLabel.Width = 131
       EditLabel.Height = 13
       EditLabel.Caption = #25195#25551#25110#36755#20837#26465#30721'('#22238#36710')'
-      LabelPosition = lpLeft
       TabOrder = 0
       OnKeyDown = LabeledEdit1KeyDown
     end
     object CheckBox1: TCheckBox
-      Left = 716
-      Top = 13
+      Left = 725
+      Top = 25
       Width = 195
       Height = 17
       TabStop = False
@@ -61,8 +67,8 @@ object frmMain: TfrmMain
       OnClick = CheckBox1Click
     end
     object RadioGroup1: TRadioGroup
-      Left = 6
-      Top = 3
+      Left = 138
+      Top = 15
       Width = 211
       Height = 32
       Columns = 4
@@ -74,12 +80,22 @@ object frmMain: TfrmMain
         #20307#26816)
       TabOrder = 2
     end
+    object DateTimePicker1: TDateTimePicker
+      Left = 6
+      Top = 24
+      Width = 105
+      Height = 21
+      Date = 45271.822518877310000000
+      Time = 45271.822518877310000000
+      TabOrder = 3
+      TabStop = False
+    end
   end
   object GroupBox1: TGroupBox
     Left = 0
-    Top = 41
+    Top = 52
     Width = 954
-    Height = 407
+    Height = 396
     Align = alClient
     Caption = #26465#30721#20449#24687
     TabOrder = 1
@@ -87,7 +103,7 @@ object frmMain: TfrmMain
       Left = 2
       Top = 15
       Width = 950
-      Height = 58
+      Height = 52
       Align = alTop
       TabOrder = 0
       object LabeledEdit2: TLabeledEdit
@@ -200,7 +216,7 @@ object frmMain: TfrmMain
     end
     object Panel4: TPanel
       Left = 2
-      Top = 372
+      Top = 361
       Width = 950
       Height = 33
       Align = alBottom
@@ -230,9 +246,9 @@ object frmMain: TfrmMain
     end
     object DBGrid1: TDBGrid
       Left = 2
-      Top = 162
+      Top = 156
       Width = 950
-      Height = 210
+      Height = 205
       TabStop = False
       Align = alClient
       DataSource = DataSource1
@@ -246,7 +262,7 @@ object frmMain: TfrmMain
     end
     object Memo1: TMemo
       Left = 2
-      Top = 73
+      Top = 67
       Width = 950
       Height = 89
       Align = alTop
@@ -283,7 +299,7 @@ object frmMain: TfrmMain
       end>
   end
   object UniConnection1: TUniConnection
-    Left = 630
+    Left = 686
     Top = 8
   end
   object ADOConnection1: TADOConnection
@@ -292,7 +308,7 @@ object frmMain: TfrmMain
       'ue;User ID=sa;Initial Catalog=YkLis;Data Source=202.96.1.105'
     LoginPrompt = False
     Provider = 'SQLOLEDB.1'
-    Left = 601
+    Left = 657
     Top = 8
   end
   object DataSource1: TDataSource
@@ -376,7 +392,7 @@ object frmMain: TfrmMain
       01003200000000000600C1AABBFABAC50100140000000000000000000000}
   end
   object ActionList1: TActionList
-    Left = 573
+    Left = 629
     Top = 8
     object Action1: TAction
       Caption = 'Action1'
@@ -386,7 +402,7 @@ object frmMain: TfrmMain
   end
   object DosMove1: TDosMove
     Active = True
-    Left = 545
+    Left = 601
     Top = 8
   end
   object PopupMenu1: TPopupMenu

@@ -47,6 +47,8 @@ type
     PopupMenu1: TPopupMenu;
     N1: TMenuItem;
     StatusBar1: TStatusBar;
+    Label2: TLabel;
+    DateTimePicker1: TDateTimePicker;
     procedure LabeledEdit1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -230,7 +232,7 @@ begin
     UniStoredProc2.Params[6].Name:='rq1';
     UniStoredProc2.Params[6].DataType:=ftstring;
     UniStoredProc2.Params[6].ParamType:=ptinput;
-    UniStoredProc2.ParamByName('rq1').Value:=FormatDateTime('YYYY-MM-DD',Date-30);
+    UniStoredProc2.ParamByName('rq1').Value:=FormatDateTime('YYYY-MM-DD',DateTimePicker1.Date);
 
     UniStoredProc2.Params.Add;
     UniStoredProc2.Params[7].Name:='rq2';
@@ -793,6 +795,8 @@ begin
   configini.Free;
   
   BitBtn1.Enabled:=not CheckBox1.Checked;
+
+  DateTimePicker1.Date:=Date-30;
 end;
 
 procedure TfrmMain.N1Click(Sender: TObject);
