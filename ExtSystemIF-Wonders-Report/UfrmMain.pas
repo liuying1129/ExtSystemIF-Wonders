@@ -258,7 +258,7 @@ begin
     ADOTemp33.SQL.Clear;
     ADOTemp33.SQL.Text:='select *,'+
     	                'isnull(dbo.uf_Reference_Value_B1(cv.min_value,cv.max_value),'''')+isnull(dbo.uf_Reference_Value_B2(cv.min_value,cv.max_value),'''') as REF_RANGE,'+
-                    	'case dbo.uf_ValueAlarm(cv.itemid,cv.Min_value,cv.Max_value,cv.itemvalue) when 1 then ''L'' WHEN 2 THEN ''H'' ELSE ''N'' END as RESULT_STATE_DESC '+
+                    	'dbo.uf_ValueAlarm(cv.itemid,cv.Min_value,cv.Max_value,cv.itemvalue) as RESULT_STATE_DESC '+
                       ' from '+
                       ifThen(ifCompleted=1,'chk_valu_bak','chk_valu')+
                       ' cv where cv.pkUnid='+ADOTemp22.fieldbyname('unid').AsString+
