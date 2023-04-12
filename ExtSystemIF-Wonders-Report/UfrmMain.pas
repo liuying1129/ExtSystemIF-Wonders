@@ -712,6 +712,35 @@ begin
         begin
           Memo1.Lines.Add(ADOTemp33.fieldbyname('valueid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人结果发布(usp_yjjk_yjjgfb)执行出错:'+E.Message);
           WriteLog(PChar(ADOTemp33.fieldbyname('valueid').AsString+'【'+ADOTemp22.fieldbyname('patientname').AsString+'】病人结果发布(usp_yjjk_yjjgfb)执行出错:'+E.Message));
+
+          //记录入参，调试用 begin
+          WriteLog('入参orgcode:'+OrgCode);
+          WriteLog('入参syscode:LIS');
+          WriteLog(PChar('入参brlx:'+ADOTemp22.fieldbyname('His_MzOrZy').AsString));
+          WriteLog('入参patid:');
+          WriteLog(PChar('入参cureno:'+ADOTemp22.fieldbyname('His_Unid').AsString));
+          WriteLog('入参times:0');
+          WriteLog('入参yexh:0');
+          WriteLog(PChar('入参applyno:'+ADOTemp22.fieldbyname('unid').AsString));
+          WriteLog('入参hisxxh:LIS1');
+          WriteLog('入参bglx:');
+          WriteLog('入参bglxmc:');
+          WriteLog('入参xmdm:');
+          WriteLog(PChar('入参xmmc:'+ADOTemp33.fieldbyname('Name').AsString));
+          WriteLog(PChar('入参xmjg:'+ADOTemp33.fieldbyname('itemvalue').AsString));
+          WriteLog('入参jyksdm:');
+          WriteLog('入参jyysdm:');
+          WriteLog('入参shysdm:');
+          WriteLog(PChar('入参bgsj:'+FormatDateTime('YYYY-MM-DD hh:nn:ss',ADOTemp22.fieldbyname('Audit_Date').AsDateTime)));
+          WriteLog(PChar('入参xmdw:'+ADOTemp33.fieldbyname('Unit').AsString));
+          WriteLog('入参jglx:');
+          WriteLog(PChar('入参jgckz:'+ADOTemp33.fieldbyname('REF_RANGE').AsString));
+          WriteLog(PChar('入参gdbz:'+ADOTemp33.fieldbyname('RESULT_STATE_DESC').AsString));
+          WriteLog(PChar('入参dyxh:'+'K0'+IntToStr(i)));
+          WriteLog(PChar('入参jcbw:'+ADOTemp22.fieldbyname('flagetype').AsString));
+          WriteLog(PChar('入参hisapplyno:'+ADOTemp33.fieldbyname('Surem1').AsString));
+          WriteLog('入参tolab:');
+          //记录入参，调试用 end
         end;
       end;
       UniStoredProc2.Free;
