@@ -610,7 +610,7 @@ begin
       UniStoredProc2.Params[11].Name:='xmdm';
       UniStoredProc2.Params[11].DataType:=ftstring;
       UniStoredProc2.Params[11].ParamType:=ptinput;
-      UniStoredProc2.ParamByName('xmdm').Value:='';
+      UniStoredProc2.ParamByName('xmdm').Value:=ADOTemp33.fieldbyname('itemid').AsString;
 
       UniStoredProc2.Params.Add;
       UniStoredProc2.Params[12].Name:='xmmc';
@@ -725,7 +725,7 @@ begin
           WriteLog('入参hisxxh:LIS1');
           WriteLog('入参bglx:');
           WriteLog('入参bglxmc:');
-          WriteLog('入参xmdm:');
+          WriteLog(PChar('入参xmdm:'+ADOTemp33.fieldbyname('itemid').AsString));
           WriteLog(PChar('入参xmmc:'+ADOTemp33.fieldbyname('Name').AsString));
           WriteLog(PChar('入参xmjg:'+ADOTemp33.fieldbyname('itemvalue').AsString));
           WriteLog('入参jyksdm:');
