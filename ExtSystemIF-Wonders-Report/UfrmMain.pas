@@ -245,8 +245,8 @@ begin
   ADOTemp22.Connection:=ADOConnection1;
   ADOTemp22.Close;
   ADOTemp22.SQL.Clear;
-  //万达HIS扫码的检验单特征:chk_con.His_MzOrZy的值不为空(等于0或1)                                                                                                     防呆,不处理7天前审核的检验单    不处理田季导入的HIS病人
-  ADOTemp22.SQL.Text:='select * from view_Chk_Con_All cc where isnull(cc.Weight,'''')='''' and isnull(cc.report_doctor,'''')<>'''' and isnull(cc.His_MzOrZy,'''')<>'''' and Audit_Date>GETDATE()-7 and isnull(TjWaiKe,'''')='''' ';
+  //万达HIS扫码的检验单特征:chk_con.His_MzOrZy的值不为空(等于0或1)                                                                                                                                         防呆,不处理7天前审核的检验单   不处理田季导入的HIS病人
+  ADOTemp22.SQL.Text:='select * from view_Chk_Con_All cc where isnull(cc.Weight,'''')='''' and isnull(cc.report_doctor,'''')<>'''' and isnull(cc.His_MzOrZy,'''')<>'''' and isnull(cc.His_Unid,'''')<>'''' and Audit_Date>GETDATE()-7 and isnull(TjJianYan,'''')<>'''' ';
   ADOTemp22.Open;
   while not ADOTemp22.Eof do
   begin
