@@ -26,6 +26,15 @@ object frmMain: TfrmMain
     Height = 41
     Align = alTop
     TabOrder = 0
+    object BitBtn1: TBitBtn
+      Left = 16
+      Top = 8
+      Width = 75
+      Height = 25
+      Caption = #21442#25968#35774#32622
+      TabOrder = 0
+      OnClick = BitBtn1Click
+    end
   end
   object Memo1: TMemo
     Left = 0

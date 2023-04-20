@@ -20,16 +20,19 @@ type
     N1: TMenuItem;
     N2: TMenuItem;
     N3: TMenuItem;
+    BitBtn1: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure N1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure N3Click(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
     { Private declarations }
     function MakeAdoDBConn:boolean;
     function MakeUniDBConn:boolean;
     function ExecSQLCmd(AConnectionString:string;ASQL:string):integer;
+    procedure UpdateConfig;{配置文件生效}
   public
     { Public declarations }
   end;
@@ -53,6 +56,7 @@ function GetMaxCheckID(const AWorkGroup,APreDate,APreCheckID:PChar):PChar;stdcal
 
 const
   CryptStr='lc';
+  IniSection='Setup';
 
 var  
   hnd:integer;
@@ -107,7 +111,7 @@ end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
-  OperateLinkFile(application.ExeName,'\'+ChangeFileExt(ExtractFileName(Application.ExeName),'.lnk'),15,true);
+  UpdateConfig;
 
   lytray1.Hint:='回传检验结果服务 - 对接万达HIS';
 
@@ -240,6 +244,25 @@ begin
 
   if length(memo1.Lines.Text)>=60000 then memo1.Lines.Clear;//memo只能接受64K个字符
   Memo1.Lines.Add(DateTimeToStr(now));//用于观测服务程序是否死掉
+
+  //重连Oracle.解决调用存储过程usp_yjjk_yjjgfb的间歇性报错,报错如下
+  {ORA-06550: line 0, column 0:
+  PLS-00907: cannot load library unit HMISW_K0.USP_YJJK_YJJGFB (referenced by )
+  ORA-06512: at "WNJK.USP_YJJK_YJJGFB", line 56
+  ORA-06512: at line 2}
+  UniConnection1.Connected := false;
+  try
+    UniConnection1.Open;
+  except
+    on E:Exception do
+    begin
+      Memo1.Lines.Add(E.Message+'.重新连接HIS数据库失败:'+UniConnection1.ConnectString);
+      WriteLog(PChar(E.Message+'.重新连接HIS数据库失败:'+UniConnection1.ConnectString));
+      (Sender as TTimer).Enabled:=true;
+      exit;
+    end;
+  end;
+  //===========================
 
   ADOTemp22:=TADOQuery.Create(nil);
   ADOTemp22.Connection:=ADOConnection1;
@@ -798,6 +821,30 @@ procedure TfrmMain.N3Click(Sender: TObject);
 begin
   if (MessageDlg('退出后将不再回传检验结果,确定退出吗？', mtWarning, [mbYes, mbNo], 0) <> mrYes) then exit;
   application.Terminate;
+end;
+
+procedure TfrmMain.BitBtn1Click(Sender: TObject);
+var
+  ss:string;
+begin
+  ss:='开机自动运行'+#2+'CheckListBox'+#2+#2+'1'+#2+#2+#3;
+
+  if ShowOptionForm('',PChar(IniSection),Pchar(ss),Pchar(ChangeFileExt(Application.ExeName,'.ini'))) then
+	  UpdateConfig;
+end;
+
+procedure TfrmMain.UpdateConfig;
+var
+  INI:tinifile;
+  autorun:boolean;
+begin
+  ini:=TINIFILE.Create(ChangeFileExt(Application.ExeName,'.ini'));
+
+  autorun:=ini.readBool(PChar(IniSection),'开机自动运行',false);
+
+  ini.Free;
+
+  OperateLinkFile(application.ExeName,'\'+ChangeFileExt(ExtractFileName(Application.ExeName),'.lnk'),15,autorun);
 end;
 
 initialization
