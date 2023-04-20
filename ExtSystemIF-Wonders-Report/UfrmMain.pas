@@ -494,7 +494,7 @@ begin
       UniStoredProc1.Params[32].Name:='reporttime';
       UniStoredProc1.Params[32].DataType:=ftstring;
       UniStoredProc1.Params[32].ParamType:=ptinput;
-      UniStoredProc1.ParamByName('reporttime').Value:='';
+      UniStoredProc1.ParamByName('reporttime').Value:=FormatDateTime('YYYY-MM-DD hh:nn:ss',ADOTemp22.fieldbyname('Audit_Date').AsDateTime);
 
       UniStoredProc1.Params.Add;
       UniStoredProc1.Params[33].Name:='verifydoctorcode';
