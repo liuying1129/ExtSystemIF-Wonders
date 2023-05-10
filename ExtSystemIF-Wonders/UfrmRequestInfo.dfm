@@ -13,7 +13,6 @@ object frmRequestInfo: TfrmRequestInfo
   OldCreateOrder = False
   Position = poScreenCenter
   OnClose = FormClose
-  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -109,39 +108,5 @@ object frmRequestInfo: TfrmRequestInfo
       EditLabel.Caption = 'LIS'#26816#39564#21333#21807#19968#21495'(chk_con.unid)'
       TabOrder = 1
     end
-    object BitBtn2: TBitBtn
-      Left = 680
-      Top = 112
-      Width = 241
-      Height = 25
-      Caption = #33719#21462#26410#25191#34892#21270#39564#21307#22065#30340#30149#20154#21015#34920' '#8595
-      TabOrder = 2
-      OnClick = BitBtn2Click
-    end
-  end
-  object DBGrid1: TDBGrid
-    Left = 0
-    Top = 257
-    Width = 934
-    Height = 210
-    Align = alClient
-    DataSource = DataSource1
-    ReadOnly = True
-    TabOrder = 2
-    TitleFont.Charset = ANSI_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -13
-    TitleFont.Name = #23435#20307
-    TitleFont.Style = []
-  end
-  object UniStoredProc5: TUniStoredProc
-    Connection = frmMain.UniConnection1
-    Left = 56
-    Top = 281
-  end
-  object DataSource1: TDataSource
-    DataSet = UniStoredProc5
-    Left = 88
-    Top = 282
   end
 end

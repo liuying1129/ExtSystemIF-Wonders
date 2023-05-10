@@ -19,15 +19,9 @@ type
     LabeledEdit2: TLabeledEdit;
     LabeledEdit3: TLabeledEdit;
     Label2: TLabel;
-    DBGrid1: TDBGrid;
-    BitBtn2: TBitBtn;
-    UniStoredProc5: TUniStoredProc;
-    DataSource1: TDataSource;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BitBtn4Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
-    procedure BitBtn2Click(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -261,66 +255,6 @@ begin
   end;
 
   UniStoredProc1.Free;
-end;
-
-procedure TfrmRequestInfo.BitBtn2Click(Sender: TObject);
-begin
-  UniStoredProc5.Close;
-  UniStoredProc5.Params.Clear;
-  UniStoredProc5.StoredProcName:='usp_yjjk_hybrcx';//获取未执行化验医嘱的病人列表
-  UniStoredProc5.Params.Add;
-  UniStoredProc5.Params[0].Name:='orgcode';
-  UniStoredProc5.Params[0].DataType:=ftString;
-  UniStoredProc5.Params[0].ParamType:=ptInput;
-  UniStoredProc5.ParamByName('orgcode').Value:=OrgCode;
-
-  UniStoredProc5.Params.Add;
-  UniStoredProc5.Params[1].Name:='bqdm';
-  UniStoredProc5.Params[1].DataType:=ftstring;
-  UniStoredProc5.Params[1].ParamType:=ptinput;
-  UniStoredProc5.ParamByName('bqdm').Value:='';
-
-  UniStoredProc5.Params.Add;
-  UniStoredProc5.Params[2].Name:='ksdm';
-  UniStoredProc5.Params[2].DataType:=ftstring;
-  UniStoredProc5.Params[2].ParamType:=ptinput;
-  UniStoredProc5.ParamByName('ksdm').Value:='';
-
-  UniStoredProc5.Params.Add;
-  UniStoredProc5.Params[3].Name:='rq1';
-  UniStoredProc5.Params[3].DataType:=ftstring;
-  UniStoredProc5.Params[3].ParamType:=ptinput;
-  UniStoredProc5.ParamByName('rq1').Value:=FormatDateTime('YYYY-MM-DD',Date-7);
-
-  UniStoredProc5.Params.Add;
-  UniStoredProc5.Params[4].Name:='rq2';
-  UniStoredProc5.Params[4].DataType:=ftstring;
-  UniStoredProc5.Params[4].ParamType:=ptinput;
-  UniStoredProc5.ParamByName('rq2').Value:=FormatDateTime('YYYY-MM-DD',Date);
-
-  UniStoredProc5.Params.Add;
-  UniStoredProc5.Params[5].Name:='brlx';
-  UniStoredProc5.Params[5].DataType:=ftstring;
-  UniStoredProc5.Params[5].ParamType:=ptinput;
-  UniStoredProc5.ParamByName('brlx').Value:=RadioGroup1.ItemIndex;
-
-  UniStoredProc5.Params.Add;
-  UniStoredProc5.Params[6].Name:='result';//必需
-  UniStoredProc5.Params[6].DataType:=ftCursor;
-  UniStoredProc5.Params[6].ParamType:=ptOutput;
-  try
-    UniStoredProc5.Open;
-  except
-    on E:Exception do
-    begin
-      MessageDlg('获取未执行化验医嘱的病人列表(usp_yjjk_hybrcx)执行出错:'+E.Message,mtError,[mbOK],0);
-    end;
-  end;
-end;
-
-procedure TfrmRequestInfo.FormCreate(Sender: TObject);
-begin
-  UniStoredProc5.Connection:=frmMain.UniConnection1;
 end;
 
 initialization
